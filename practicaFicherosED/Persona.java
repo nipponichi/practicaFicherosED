@@ -14,15 +14,16 @@ public class Persona {
 			 SOBREPESO = 1;
 	
 	/**
-	 * Declaración de variables privadas para evitar acceso<br>
+	 * Declaración de variables protected para permitir acceso desde
+	 * clase heredera Paciente.
 	 * Todos los atributos tienen valor por defecto excepto el DNI
 	 */
-	 private String nombre;
-	 private int edad;
-	 private String DNI = "";
-	 private char sexo;
-	 private double peso;
-	 private double altura;
+	 protected String nombre;
+	 protected int edad;
+	 protected String DNI = "";
+	 protected char sexo;
+	 protected double peso;
+	 protected double altura;
 
 	 /**
 	  * Constructor Persona por defecto.
@@ -74,7 +75,7 @@ public class Persona {
 	 /**
 	  * Método con algoritmo de generación automática de DNI
 	  */
-	 private void generarDni() {
+	 protected void generarDni() {
 		 final int divisor = 23;
 		 
 		 // Generamos un número aleatorio entre 10 y 100 millones. (8 cifras).
@@ -139,7 +140,47 @@ public class Persona {
 		 this.altura = altura;
 	}
 	 
-	 /**
+	public String getDNI() {
+		return DNI;
+	}
+
+	public static char getSexoDef() {
+		return SEXO_DEF;
+	}
+
+	public static int getInfrapeso() {
+		return INFRAPESO;
+	}
+
+	public static int getPesoIdeal() {
+		return PESO_IDEAL;
+	}
+
+	public static int getSobrepeso() {
+		return SOBREPESO;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
+
+	public char getSexo() {
+		return sexo;
+	}
+
+	public double getPeso() {
+		return peso;
+	}
+
+	public double getAltura() {
+		return altura;
+	}
+
+	/**
 	  * Método de cálculo  de IMC
 	  * @return Resultado IMC
 	  */
@@ -166,15 +207,6 @@ public class Persona {
 		 return (this.edad >=18);
 	 }
 	 
-	 //Simplificando código
-		/* if (this.edad >= 18) {
-				 return true;
-		 }
-		 else {
-			 return false;
-		 }
-	 }
-	 */
 	 /**
 	  * Método para representar los parámetros de los atributos del objeto Persona.
 	  * sin este método obtendriamos el nombre del objeto y su dirección en memoria.

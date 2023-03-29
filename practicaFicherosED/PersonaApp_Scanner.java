@@ -13,76 +13,74 @@ public class PersonaApp_Scanner {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-
+		Scanner scOpcion = new Scanner(System.in);
+		boolean menuInicial = true;
+		Paciente p = new Paciente();
 		/**
 		 * Introducción de datos por consola<br>
 		 * para atributos nombre, edad, sexo y peso.
 		 */
-		System.out.println("Introduce el nombre");
-		String nombre = sc.next();
-		System.out.println("Introduce la edad");
-		int edad = sc.nextInt();
-		System.out.println("Introduce el sexo");
-		char sexo = sc.next().charAt(0);
-		System.out.println("Introduce el peso");
-		double peso = sc.nextDouble();
-		System.out.println("Introduce la altura");
-		double altura = sc.nextDouble();
 		
-		/**
-		 * Declaración de objeto persona en clase main
-		 */
-		Persona persona1 = new Persona();
-		Persona persona2 = new Persona(nombre, edad, sexo);
-		Persona persona3 = new Persona(nombre, edad, sexo, peso, altura);
+		do {
+		System.out.println("**********************\nSelecciona una opcion"
+				+ "\n**********************"
+				+ "\n1. Registrar nuevo paciente"
+				+ "\n2. Registrar nueva visita"
+				+ "\n3. Salir.");
 		
-		/**
-		 * Parametros objeto persona1
-		 */
-		persona1.setNombre("Laura");
-		persona1.setEdad(30);
-		persona1.setSexo('M');
-		persona1.setPeso(60);
-		persona1.setAltura(1.60);
+		int seleccion = scOpcion.nextInt();
 		
-		/**
-		 * Parámetros objeto persona2
-		 */
-		persona2.setPeso(90.5);
-		persona2.setAltura(1.80);
+		switch(seleccion){
+			case 1:
+				/**
+				 * Registro de nuevos pacientes,
+				 * campos requeridos por teclado:
+				 * DNI, nombre, edad, calle, localidad, cod_postal
+				 */
+				System.out.println("Introducimos datos de nuevo paciente:");
+				System.out.println("Introduce el nombre");
+				Scanner scNombre = new Scanner(System.in);
+				String nombre = scNombre.next();
+				System.out.println("Introduce la edad");
+				Scanner scEdad = new Scanner(System.in);
+				int edad = scEdad.nextInt();
+				System.out.println("Introduce la calle");
+				Scanner scCalle = new Scanner(System.in);
+				String calle = scCalle.nextLine();
+				System.out.println("Introduce la localidad");
+				Scanner scLocalidad = new Scanner(System.in);
+				String localidad = scLocalidad.nextLine();
+				System.out.println("Introduce el codigo postal");
+				Scanner scCodPostal = new Scanner(System.in);
+				String codPostal = scCodPostal.nextLine();
+				/**
+				 * Objeto paciente con parámetros 
+				 * de nuevo paciente.
+				 */
+				Paciente paciente = new Paciente(nombre, edad, calle, localidad,
+						codPostal);
+				/**
+				 * Llamada a metodo grabarCliente
+				 * Guardamos datos de nuevo Paciente en fichero Pacientes.txt
+				 */
+				TratamientoFichero.grabarCliente(paciente);
+				break;
+			case 2:
+				//Registro visitas
+				break;
+			case 3:
+				System.out.println("Gracias por utilizar nuestro software");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Opcion no valida\n por favor,"
+						+ "seleccione una opcion entre las disponibles");
+				break;
+			}
 		
-		/**
-		 * Imprime por consola<br>
-		 * parametros y resultados<br> 
-		 * para objeto persona1
-		 */
-		System.out.println("Persona1");
-		MuestraMensajePeso(persona1);
-		MuestraMensajeEdad(persona1);
-		System.out.println(persona1.toString());
+		} while (menuInicial = true);
 		
-		/**
-		 * Imprime por consola<br>
-		 * parametros y resultados<br> 
-		 * para objeto persona2
-		 */
-		System.out.println("Persona2");
-		MuestraMensajePeso(persona2);
-		MuestraMensajeEdad(persona2);
-		System.out.println(persona2.toString());
- 
-		/**
-		 * Imprime por consola<br>
-		 * parametros y resultados<br> 
-		 * para objeto persona3
-		 */
-		System.out.println("Persona3");
-		MuestraMensajePeso(persona3);
-		MuestraMensajeEdad(persona3);
-		System.out.println(persona3.toString());
-		
-		sc.close();
+
 	}
  
 	/**
@@ -110,11 +108,11 @@ public class PersonaApp_Scanner {
 	/**
 	 * Este método determina el mensaje a mostrar en pantalla
 	 * referente a la mayoria de edad de la persona.
-	 * @param p2
+	 * @param p
 	 */
 
-	public static void MuestraMensajeEdad(Persona p2) {
-		boolean mayoriaEdad = p2.esMayorDeEdad();
+	public static void MuestraMensajeEdad(Persona p) {
+		boolean mayoriaEdad = p.esMayorDeEdad();
 		if (mayoriaEdad == true) {
 			System.out.println("La persona es mayor de edad");
 		}
