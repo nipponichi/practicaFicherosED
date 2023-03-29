@@ -1,7 +1,10 @@
 package practicaFicherosED;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class TratamientoFichero {
 
@@ -9,6 +12,7 @@ public class TratamientoFichero {
 	 * Método de escritura de archivo de texto en el que guardamos los pacientes.
 	 */
 	public static void grabarCliente(Paciente p) {
+		//TENER EN CUENTA QUE VISITA Y PACIENTE TIENEN DIFERENTE DESTINO
 		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
 		FileWriter fichero = null;
 		PrintWriter pw = null;		
@@ -18,7 +22,7 @@ public class TratamientoFichero {
 		 */
 		try {
 			/**
-			 * Se añade flag a la edicion del archivo para no sobreescribir los datos ya guardados.
+			 * Se añade flag a la edición del archivo para no sobreescribir los datos ya guardados.
 			 */
 			fichero = new FileWriter(ruta, true);
 			pw = new PrintWriter(fichero);
@@ -29,8 +33,8 @@ public class TratamientoFichero {
 			System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
 			e.printStackTrace();
 			/**
-			 * Metodo de cerrar la edicion del archivo, si el fichero existe, se cierra, si no,
-			 * capturamos la excepcion.
+			 * Mtéodo para cerrar la edicion del archivo, si el fichero existe, se cierra, si no,
+			 * capturamos la excepción.
 			 */
 		} finally {
 			try {
@@ -43,4 +47,32 @@ public class TratamientoFichero {
 			}
 		}
 	}
-}
+
+	public static boolean FileScanner (String dni) {
+		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
+		File f = new File(ruta);
+		Scanner s;
+			/**
+			 * Método para tomar valores de los campos
+			 * establecidos por el delimitador ','.
+			 */
+			try {
+				s = new Scanner(f);
+				while (s.hasNextLine()) {
+					String linea = s.nextLine();
+					Scanner sl = new Scanner(linea);
+					sl.useDelimiter("\\s*,\\s*");
+					//DNI
+					if (sl.next().equals(dni)) {
+						return true;
+					}
+					sl.close();
+				}
+				s.close();
+			} catch (FileNotFoundException e) {
+				System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
+				e.printStackTrace();
+		}
+			return false;
+	}
+}	

@@ -66,7 +66,7 @@ public class Persona {
 	  * Método de comprobacion de Sexo, otorga sexo H por defecto<br>
 	  * si el caracter introducido es diferente de 'H' o 'M'
 	  */
-	 private void comprobarSexo() {
+	 protected void comprobarSexo() {
 		 if (sexo != 'H' && sexo != 'M') {
 			 this.sexo = SEXO_DEF;
 		 	}

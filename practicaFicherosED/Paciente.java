@@ -20,7 +20,7 @@ public class Paciente extends Persona {
 		this.localidad = localidad;
 		this.codPostal = codPostal;
 		generarDni();
-		
+		comprobarSexo();
 	}
 	
 	public Paciente (String nombre, int edad, char sexo, double peso,
@@ -33,7 +33,6 @@ public class Paciente extends Persona {
 		this.calle = calle;
 		this.localidad = localidad;
 		this.codPostal = codPostal;
-		generarDni();
 	}
 
 	public String getCalle() {
