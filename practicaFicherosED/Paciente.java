@@ -1,9 +1,12 @@
 package practicaFicherosED;
 
+import java.util.Date;
+
 public class Paciente extends Persona {
 	private String calle;
 	private String localidad;
 	private String codPostal;
+	private Date fecha;
 	
 	public Paciente () {
 		
@@ -24,7 +27,7 @@ public class Paciente extends Persona {
 	}
 	
 	public Paciente (String nombre, int edad, char sexo, double peso,
-			 double altura, String calle, String localidad, String codPostal) {
+			 double altura, String calle, String localidad, String codPostal,Date fecha) {
 		this.nombre = nombre;
 		this.edad = edad;
 		this.sexo = sexo;
@@ -33,6 +36,7 @@ public class Paciente extends Persona {
 		this.calle = calle;
 		this.localidad = localidad;
 		this.codPostal = codPostal;
+		this.fecha = fecha;
 	}
 
 	public String getCalle() {

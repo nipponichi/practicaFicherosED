@@ -6,14 +6,19 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+
 public class TratamientoFichero {
 
 	/**
 	 * Método de escritura de archivo de texto en el que guardamos los pacientes.
 	 */
-	public static void grabarCliente(Paciente p) {
-		//TENER EN CUENTA QUE VISITA Y PACIENTE TIENEN DIFERENTE DESTINO
-		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
+	public static void grabarCliente(Paciente p,boolean esVisita) {
+		String ruta = null;
+		if (esVisita != true) {
+			ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
+		} else {
+			ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Visitas.txt";
+		}
 		FileWriter fichero = null;
 		PrintWriter pw = null;		
 		/**
@@ -26,14 +31,20 @@ public class TratamientoFichero {
 			 */
 			fichero = new FileWriter(ruta, true);
 			pw = new PrintWriter(fichero);
-			pw.println(p.getDNI()+","+p.getNombre()+","+p.getEdad()+","+p.getCalle()+","+p.getLocalidad()+","+p.getCodPostal());
-			System.out.println("Paciente con nombre "+p.getNombre()+" y dni "+p.getDNI()+" ha sido guardado con exito.");
+			if (esVisita != true) {
+				pw.println(p.getDNI()+","+p.getNombre()+","+p.getEdad()+","+p.getCalle()+","+p.getLocalidad()+","+p.getCodPostal());
+				System.out.println("Paciente con nombre "+p.getNombre()+" y dni "+p.getDNI()+" ha sido guardado con exito.");
+			} else {
+				pw.println(p.getDNI()+","+p.getNombre()+","+p.getEdad()+","+p.getCalle()+","+p.getLocalidad()+","+p.getCodPostal());
+				System.out.println("Paciente con nombre "+p.getNombre()+" y dni "+p.getDNI()+" ha sido guardado con exito.");
+			}
+
 
 		} catch (Exception e) {
 			System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
 			e.printStackTrace();
 			/**
-			 * Mtéodo para cerrar la edicion del archivo, si el fichero existe, se cierra, si no,
+			 * Método para cerrar la edicion del archivo, si el fichero tiene contenido, se cierra, si no,
 			 * capturamos la excepción.
 			 */
 		} finally {
@@ -48,7 +59,7 @@ public class TratamientoFichero {
 		}
 	}
 
-	public static boolean FileScanner (String dni) {
+	public static boolean esDniRegistrado (String dni) {
 		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
 		File f = new File(ruta);
 		Scanner s;
