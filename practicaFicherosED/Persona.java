@@ -179,7 +179,11 @@ public class Persona {
 	public double getAltura() {
 		return altura;
 	}
-
+	
+	public void setDNI(String dNI) {
+		DNI = dNI;
+	}
+	
 	/**
 	  * Método de cálculo  de IMC
 	  * @return Resultado IMC

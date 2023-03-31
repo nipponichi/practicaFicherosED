@@ -11,7 +11,6 @@ package practicaFicherosED;
  * datos por teclado.
  */
 import java.util.Scanner;
-import java.util.Date;
 
 public class PersonaApp_Scanner {
 	
@@ -107,7 +106,7 @@ public class PersonaApp_Scanner {
 	 * peso, altura, unidad de altura, resultado de calcular el IMC.
 	 */
 	public static void registroVisita() {
-
+		Paciente pacienteVisita = new Paciente();
 		System.out.println("********************************\n"
 				+ "Registro de nueva visita"
 				+ "\n********************************");
@@ -117,13 +116,18 @@ public class PersonaApp_Scanner {
 		Scanner scDni = new Scanner(System.in);
 		String dni = scDni.nextLine();				
 		if (TratamientoFichero.esDniRegistrado(dni)==true) {
+			boolean esVisita = true;
+			pacienteVisita.setDNI(dni);
+			int edad = pacienteVisita.edad;			
 			System.out.println("Introduce el peso");
 			Scanner scPeso = new Scanner(System.in);
 			double peso = scPeso.nextDouble();
+			pacienteVisita.setPeso(peso);
 			System.out.println("Introduce la altura");
 			Scanner scAltura = new Scanner(System.in);
 			double altura = scAltura.nextDouble();
-			Date d = new Date();
+			pacienteVisita.setAltura(altura);
+			TratamientoFichero.grabarCliente(pacienteVisita,esVisita);
 		} else {
 			System.out.println("El DNI introducido no se encuentra\n"
 					+ "entre nuestros registros.\n"
