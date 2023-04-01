@@ -1,11 +1,15 @@
 /*
- * TO-DO V0.05 
- * Implementar método para recoger parametros desde fichero Pacientes.txt 
- * del cliente seleccionado mediante DNI.
+ * TO-DO V0.06
+ * 
+ * dni acepta cualquier dni valido pero deberia mostrar un "no se encuentra" cuando no exista en la lista
+ * corregir lo del resultado del IMC
  */
 
 package practicaFicherosED;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 /**
  * Librería Scanner, para la introducción de<br>
  * datos por teclado.
@@ -21,38 +25,45 @@ public class PersonaApp_Scanner {
 	public static void main(String[] args) {
 		//Acceso a menu inicial
 		menuInicial();		
-	}	
-		/**
-		 * Menu inicial, estrutura switch en la que
-		 * dirigimos al usuario entre las diferentes
-		 * opciones del software. 
-		 */
+	}
+	
+	/**
+	* Menu inicial, estrutura switch en la que
+	* dirigimos al usuario entre las diferentes
+	* opciones del software. 
+	*/
 	public static void menuInicial() {
-		Scanner scOpcion = new Scanner(System.in);
-		
+		boolean esMenu = false;
+		do {
 		System.out.println("**********************\nSelecciona una opcion"
 				+ "\n**********************"
 				+ "\n1. Registrar nuevo paciente"
 				+ "\n2. Registrar nueva visita"
-				+ "\n3. Salir.");
-		
-		int seleccion = scOpcion.nextInt();
-		
+				+ "\n3. Mostrar historial de paciente"
+				+ "\n4. Salir.");
+		Scanner scSeleccion = new Scanner(System.in);
+		int seleccion = scSeleccion.nextInt();
 		switch(seleccion){
 			case 1:
 				registroPaciente();
+				break;
 			case 2:
 				registroVisita();				
 				break;
 			case 3:
+				historialPaciente();
+				break;
+			case 4:
 				System.out.println("Gracias por utilizar nuestro software");
 				System.exit(0);
 				break;
 			default:
+				esMenu = true;
 				System.out.println("Opcion no valida\n por favor,"
 						+ " seleccione una opcion entre las disponibles");
 				break;
 			}
+	}while (esMenu == true);
 	}
 	
 	/**
@@ -61,30 +72,28 @@ public class PersonaApp_Scanner {
 	 * DNI, nombre, edad, calle, localidad, cod_postal
 	 */
 	public static void registroPaciente() {
-
 		System.out.println("********************************\n"
 				+ "Introduce datos de nuevo paciente"
 				+ "\n********************************");
-		System.out.println("Introduce el nombre");
+		System.out.println("Introduzca el nombre");
 		Scanner scNombre = new Scanner(System.in);
 		String nombre = scNombre.nextLine();
-		System.out.println("Introduce la edad");
+		System.out.println("Introduzca la edad");
 		Scanner scEdad = new Scanner(System.in);
 		int edad = scEdad.nextInt();
-		System.out.println("Introduce el genero"
-				+ "\nM. Masculino"
-				+ "\nF. Femenino");
-		Scanner scSexo = new Scanner(System.in);
-		char sexo = scSexo.nextLine().charAt(0);
-		System.out.println("Introduce la calle");
+
+		System.out.println("Introduzca la calle");
 		Scanner scCalle = new Scanner(System.in);
 		String calle = scCalle.nextLine();
-		System.out.println("Introduce la localidad");
+
+		System.out.println("Introduzca la localidad");
 		Scanner scLocalidad = new Scanner(System.in);
 		String localidad = scLocalidad.nextLine();
-		System.out.println("Introduce el codigo postal");
+		
+		System.out.println("Introduzca el codigo postal");
 		Scanner scCodPostal = new Scanner(System.in);
 		String codPostal = scCodPostal.nextLine();
+
 		boolean esVisita = false;
 		/**
 		 * Objeto paciente con parámetros 
@@ -106,29 +115,46 @@ public class PersonaApp_Scanner {
 	 * peso, altura, unidad de altura, resultado de calcular el IMC.
 	 */
 	public static void registroVisita() {
-		Paciente pacienteVisita = new Paciente();
 		System.out.println("********************************\n"
 				+ "Registro de nueva visita"
 				+ "\n********************************");
 		
-		System.out.println("se muestra hora y fecha");
-		System.out.println("Se toma el dni");
+		System.out.println("Introduzca el dni");
 		Scanner scDni = new Scanner(System.in);
-		String dni = scDni.nextLine();				
+		String dni = scDni.nextLine();
+
 		if (TratamientoFichero.esDniRegistrado(dni)==true) {
 			boolean esVisita = true;
-			pacienteVisita.setDNI(dni);
-			int edad = pacienteVisita.edad;			
-			System.out.println("Introduce el peso");
+			
+			System.out.println("Introduzca el peso en kilogramos");
 			Scanner scPeso = new Scanner(System.in);
 			double peso = scPeso.nextDouble();
-			pacienteVisita.setPeso(peso);
-			System.out.println("Introduce la altura");
+			
+			System.out.println("Inserte la altura en metros");
 			Scanner scAltura = new Scanner(System.in);
 			double altura = scAltura.nextDouble();
+			
+			DateFormat dFFecha = new SimpleDateFormat("d MMM yyyy");
+			DateFormat dFHora = new SimpleDateFormat("HH:mm:ss");
+			String fecha = dFFecha.format(Calendar.getInstance().getTime());
+			String hora = dFHora.format(Calendar.getInstance().getTime());
+			double imc = 0;
+
+			/**
+			 * Declaracion objeto Paciente 
+			 * para guardar visitas.
+			 */
+			Paciente pacienteVisita = new Paciente(dni, peso, altura, fecha, hora, imc);
+			pacienteVisita.calcularIMC();
+			pacienteVisita.setDNI(dni);
+			pacienteVisita.setPeso(peso);
 			pacienteVisita.setAltura(altura);
+			pacienteVisita.setFecha(fecha);
+			pacienteVisita.setHora(hora);
 			TratamientoFichero.grabarCliente(pacienteVisita,esVisita);
 		} else {
+			boolean esMenu = false;
+			do {
 			System.out.println("El DNI introducido no se encuentra\n"
 					+ "entre nuestros registros.\n"
 					+ "Desea registrar a un nuevo paciente?"
@@ -149,16 +175,31 @@ public class PersonaApp_Scanner {
 					menuInicial();
 					break;
 				default:
+					esMenu = true;
 					System.out.println("Opcion no valida\n por favor,"
 							+ "seleccione una opcion entre las disponibles");
 					break;
-				
 				}
+			}while (esMenu == false);
 		}
-			
-		/*Paciente pacienteVisita = new Paciente(nombre,edad, sexo, peso,
-				 altura, calle, localidad, codPostal)
-		MuestraMensajePeso(pacienteVisita);*/
+	}
+	
+	/**
+	 * Método para mostrar histórial de visitas de paciente por consola
+	 */
+	public static void historialPaciente() {
+		boolean esDniValido;
+		String dni;
+		do {
+		System.out.println("Inserte el dni del paciente: ");
+		Scanner scDni = new Scanner(System.in);
+		dni = scDni.nextLine();
+		esDniValido = TratamientoFichero.esDniValido(dni);
+		if (esDniValido == false) {
+			System.out.println("El dni introducido no es valido");
+		}
+		}while (esDniValido == false);
+		TratamientoFichero.esHistorico(dni);
 	}
 	
 	/**
@@ -169,15 +210,15 @@ public class PersonaApp_Scanner {
 	public static void MuestraMensajePeso(Paciente p) {
 		int IMC = p.calcularIMC();
 		switch (IMC) {
-	 		case Persona.PESO_IDEAL:
+	 		case Paciente.PESO_IDEAL:
 	 			System.out.println("La persona esta en su peso"
 	 					+" ideal");
 	 			break;
-	 		case Persona.INFRAPESO:
+	 		case Paciente.INFRAPESO:
 	 			System.out.println("La persona esta por debajo de su"
 	 					+" peso ideal");
 	 			break;
-	 		case Persona.SOBREPESO:
+	 		case Paciente.SOBREPESO:
 	 			System.out.println("La persona esta por encima de su"
 	 					+" peso ideal");
 	 			break;
@@ -187,9 +228,8 @@ public class PersonaApp_Scanner {
 	/**
 	 * Este método determina el mensaje a mostrar en pantalla
 	 * referente a la mayoria de edad de la persona.
-	 * @param p
+	 * @param p objeto Persona
 	 */
-
 	public static void MuestraMensajeEdad(Persona p) {
 		boolean mayoriaEdad = p.esMayorDeEdad();
 		if (mayoriaEdad == true) {
@@ -199,4 +239,5 @@ public class PersonaApp_Scanner {
 			System.out.println("La persona es menor de edad");
 		}
 	}
+	
 }

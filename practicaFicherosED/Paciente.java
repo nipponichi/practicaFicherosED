@@ -1,12 +1,12 @@
 package practicaFicherosED;
 
-import java.util.Date;
-
 public class Paciente extends Persona {
 	private String calle;
 	private String localidad;
 	private String codPostal;
-	private Date fecha;
+	private String fecha;
+	private String hora;
+	private double imc;
 	
 	public Paciente () {
 		
@@ -16,27 +16,20 @@ public class Paciente extends Persona {
 			String codPostal) {
 		this.nombre = nombre;
 		this.edad = edad;
-		this.sexo = sexo;
-		this.peso = peso;
-		this.altura = altura;
 		this.calle = calle;
 		this.localidad = localidad;
 		this.codPostal = codPostal;
 		generarDni();
-		comprobarSexo();
 	}
 	
-	public Paciente (String nombre, int edad, char sexo, double peso,
-			 double altura, String calle, String localidad, String codPostal,Date fecha) {
+	public Paciente (String nombre, double peso,
+			 double altura, String fecha, String hora, double imc) {
 		this.nombre = nombre;
-		this.edad = edad;
-		this.sexo = sexo;
 		this.peso = peso;
 		this.altura = altura;
-		this.calle = calle;
-		this.localidad = localidad;
-		this.codPostal = codPostal;
 		this.fecha = fecha;
+		this.hora = hora;
+		this.imc = calcularIMC();
 	}
 
 	public String getCalle() {
@@ -62,5 +55,20 @@ public class Paciente extends Persona {
 	public void setCodPostal(String codPostal) {
 		this.codPostal = codPostal;
 	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 	
+	public String getHora() {
+		return hora;
+	}
+	
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
 }

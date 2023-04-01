@@ -188,6 +188,7 @@ public class Persona {
 	  * Método de cálculo  de IMC
 	  * @return Resultado IMC
 	  */
+	//Contemplar Static para no pasar objeto persona, solo necesitamos peso y altura
 	 public int calcularIMC() {
 		 //Calculamos el peso de la persona
 		 double pesoActual = peso / (Math.pow(altura, 2));
