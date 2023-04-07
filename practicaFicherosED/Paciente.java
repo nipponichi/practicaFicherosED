@@ -6,7 +6,7 @@ public class Paciente extends Persona {
 	private String codPostal;
 	private String fecha;
 	private String hora;
-	private double imc;
+	private String dni;	
 	
 	public Paciente () {
 		
@@ -22,14 +22,25 @@ public class Paciente extends Persona {
 		generarDni();
 	}
 	
+	public Paciente (String nombre, int edad, String calle, String localidad,
+			String codPostal, String dni) {
+		this.nombre = nombre;
+		this.edad = edad;
+		this.calle = calle;
+		this.localidad = localidad;
+		this.codPostal = codPostal;
+		this.dni = dni;
+	}
+	
 	public Paciente (String nombre, double peso,
-			 double altura, String fecha, String hora, double imc) {
+			 double altura, String fecha, String hora, String dni) {
 		this.nombre = nombre;
 		this.peso = peso;
 		this.altura = altura;
 		this.fecha = fecha;
 		this.hora = hora;
-		this.imc = calcularIMC();
+		//this.imc = calcularIMC();
+		this.dni = dni;
 	}
 
 	public String getCalle() {
@@ -71,4 +82,13 @@ public class Paciente extends Persona {
 	public void setHora(String hora) {
 		this.hora = hora;
 	}
+	
+	public String getDniTeclado() {
+		return dni;
+	}
+
+	public void setDniTeclado(String dni) {
+		this.dni = dni;
+	}
+	
 }

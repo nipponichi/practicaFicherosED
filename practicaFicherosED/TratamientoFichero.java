@@ -1,11 +1,8 @@
 package practicaFicherosED;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,19 +11,27 @@ import java.util.regex.Pattern;
 public class TratamientoFichero {
 
 	/**
-	 * Método de escritura de archivo de texto en el que guardamos los pacientes.
+	 * Método de escritura de archivos: Pacientes.txt y Visitas.txt.
 	 */
-	public static void grabarCliente(Paciente p,boolean esVisita) {
+	public static void grabarCliente(Paciente p,boolean esVisita, boolean esPacienteNuevo) {
 		String ruta = null;
 		FileWriter fichero = null;
-		PrintWriter pw = null;	
-		String rutaPaciente = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
-		String rutaVisita = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Visitas.txt";
+		PrintWriter pw = null;
+		
+		String rutaPaciente = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src"
+				+ "\\almacenamiento\\Pacientes.txt";
+		String rutaVisita = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src"
+				+ "\\almacenamiento\\Visitas.txt";
+		
+		//Comprobamos si registraremos paciente o visita
 		if (esVisita != true) {
 			ruta = rutaPaciente;
-		} else {
+		} 
+		
+		else {
 			ruta = rutaVisita;
 		}	
+		
 		/**
 		 * Metodo de editar el archivo, si el fichero existe, se edita, si no,
 		 * capturamos la excepcion.
@@ -37,33 +42,82 @@ public class TratamientoFichero {
 			 */
 			fichero = new FileWriter(ruta, true);
 			pw = new PrintWriter(fichero);
-			if (esVisita != true) {
-				pw.println(p.getDNI()+","+p.getNombre()+","+p.getEdad()+","+p.getCalle()+","+p.getLocalidad()+","+p.getCodPostal());
-				System.out.println("Registro de nuevo paciente con dni "+p.DNI+" ha sido guardado con exito.");
-			} else {
-				pw.println("DNI: "+p.DNI+", Fecha: "+p.getFecha()+
-					", Hora:"+p.getHora()+", Peso: "+p.getPeso()+"Kgs, Altura: "+p.getAltura()+"m, IMC: "+p.calcularIMC());
-				System.out.println("Registro de visita de paciente con dni "+p.DNI+" ha sido guardado con exito.");
+			/**
+			 * Se comprueba si el DNI ha sido introducido por teclado o
+			 * necesitamos usar el metodo generarDNI() de clase Persona
+			 */
+			
+			//Si no es visita y el dni es recogido por teclado
+			if (esVisita != true && p.getDniTeclado() != null) {
+				pw.println(p.getDniTeclado()+","+p.getNombre()+","+p.getEdad()+","+p.getCalle()+","
+						+ ""+p.getLocalidad()+","+p.getCodPostal());
+				System.out.println("++++++++++++++++++++++++++++++++++++++++\nRegistro de nuevo paciente con "
+						+ "dni "+p.getDniTeclado()+" ha sido guardado con exito.\n"
+								+ "++++++++++++++++++++++++++++++++++++++++");
+			
+			//Si no es visita y el dni no es recogido por teclado
+			} 
+			
+			else if (esVisita != true && p.getDniTeclado() == null) {
+				pw.println(p.getDNI()+","+p.getNombre()+","+p.getEdad()+","+p.getCalle()+","
+						+ ""+p.getLocalidad()+","+p.getCodPostal());
+				System.out.println("++++++++++++++++++++++++++++++++++++++++\nRegistro de nuevo paciente con "
+						+ "dni "+p.getDNI()+" ha sido guardado con exito.\n"
+								+ "++++++++++++++++++++++++++++++++++++++++");
+			
+			//Si es visita
+			} 
+			
+			else {
+				pw.println("DNI: "+p.getDniTeclado()+", Fecha: "+p.getFecha()+
+					", Hora:"+p.getHora()+", Peso: "+p.getPeso()+"Kgs, Altura: "
+							+ ""+p.getAltura()+"m, IMC: "+p.calcularIMC());
+				System.out.println("++++++++++++++++++++++++++++++++++++++++\nRegistro de visita de paciente con "
+						+ "dni "+p.getDniTeclado()+" ha sido guardado con exito.\n"
+								+ "++++++++++++++++++++++++++++++++++++++++");
 			}
-		} catch (Exception e) {
+			
+		} 
+		
+		catch (Exception e) {
 			System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
 			e.printStackTrace();
 			/**
 			 * Método para cerrar la edicion del archivo, si el fichero tiene contenido, se cierra, si no,
 			 * capturamos la excepción.
 			 */
-		} finally {
+			
+		} 
+		
+		finally {
 			try {
 				if (null != fichero) {
 					fichero.close();
 				}
-			} catch (Exception e2) {
+			} 
+			
+			catch (Exception e2) {
 				System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
 				e2.printStackTrace();
 			}
+		} 
+		// Si el paciente es continuamos registrando la visita inicial
+		if (esPacienteNuevo == true && p.getDniTeclado() != null) {
+			System.out.println("Se procede a registrar la visita inicial");
+			PersonaApp_Scanner.registroVisita(p.getDniTeclado());
 		}
-		PersonaApp_Scanner.menuInicial();
-	}
+		
+		else if (esPacienteNuevo == true && p.getDniTeclado() == null) {
+			System.out.println("Se procede a registrar la visita inicial");
+			PersonaApp_Scanner.registroVisita(p.getDNI());
+			
+		}
+		
+		else {
+			PersonaApp_Scanner.menuInicial();
+		}
+
+	}//grabarCliente
 	
 	/**
 	 * Método de busqueda de DNI en archivo Pacientes.txt
@@ -92,19 +146,21 @@ public class TratamientoFichero {
 					sl.close();
 				}
 				s.close();
-			} catch (FileNotFoundException e) {
+			} 
+			
+			catch (FileNotFoundException e) {
 				System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
 				e.printStackTrace();
 		}
-			return false;
-			
-	} 
+			return false;		
+	} //esDniRegistrado
 	
 	/**
 	 * Comprobamos si el cliente ha sido registrado en Visitas.txt
 	 * y mostramos su evolucion histórica en la clínica.
 	 * @param dni
 	 */
+	@SuppressWarnings("resource")
 	public static void esHistorico (String dni) {
 		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Visitas.txt";
 		File f = new File(ruta);
@@ -134,46 +190,23 @@ public class TratamientoFichero {
 						}
 					}
 				s.close();
-			} catch (FileNotFoundException e) {
+			} 
+			
+			catch (FileNotFoundException e) {
 				System.err.println("El fichero 'Pacientes.txt' no existe para la ruta expecificada");
 				e.printStackTrace();
 				}
 			PersonaApp_Scanner.menuInicial();
-	}
+	}//esHistorico
 
-	/**
-	 * Método para mostrar el listado de proximas citas pendientes.		
-	 * @param archivo
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	public static void muestraContenido(String archivo) throws
-		FileNotFoundException, IOException {
-		String cadena;
-		FileReader f = new FileReader(archivo);
-		BufferedReader b = new BufferedReader(f);
-		System.out.println("********************\nListado de proximas citas:\n"
-				+ "********************\n");
-		while ((cadena = b.readLine()) != null) {
-			System.out.println(cadena);
-			}
-			b.close();
-			PersonaApp_Scanner.menuInicial();
-	}
-	
 	/**
 	 * Comprueba si el formato del dni corresponde al estandar
 	 * comparando con un patron que exije 8 cifras y una letra.
 	 * @return true o false
 	 */
 	public static boolean esDniValido(String entrada) {
-		Pattern pat = Pattern.compile("[0-9]{7,8}[A-Z a-z]");
+		Pattern pat = Pattern.compile("[0-9]{7,8}[A-Z]");
 		Matcher mat = pat.matcher (entrada);
-		if (!mat.find()) {
-			return false;
-		} else {
-			return true;
-		}
-		
-	}
+		return (mat.find());
+	}//esDniValido
 }

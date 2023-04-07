@@ -144,22 +144,6 @@ public class Persona {
 		return DNI;
 	}
 
-	public static char getSexoDef() {
-		return SEXO_DEF;
-	}
-
-	public static int getInfrapeso() {
-		return INFRAPESO;
-	}
-
-	public static int getPesoIdeal() {
-		return PESO_IDEAL;
-	}
-
-	public static int getSobrepeso() {
-		return SOBREPESO;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -209,7 +193,7 @@ public class Persona {
 	  * @return true si la persona tiene 18 años o mas.
 	  */
 	 public boolean esMayorDeEdad() {
-		 return (this.edad >=18);
+		 return (this.edad >= 18);
 	 }
 	 
 	 /**
@@ -222,7 +206,7 @@ public class Persona {
 		 String sexo;
 		 if (this.sexo == 'H') {
 			 sexo = "Hombre";
-		 }
+		 } 
 		 else {
 			 sexo = "Mujer";
 		 }
