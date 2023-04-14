@@ -17,7 +17,7 @@ public class PersonaApp_Scanner {
 	public static void main(String[] args) {
 		//Acceso a menu inicial
 		menuInicial();		
-	}
+	}//main
 	
 	/**
 	* Menu inicial, estrutura switch en la que
@@ -252,8 +252,12 @@ public class PersonaApp_Scanner {
 		else {
 			
 			if (esDniRegistrado == true) {
-				System.out.println("Historial de paciente con Dni "+dni+":");
+				System.out.println("*******************************\n"
+						+ "Historial de paciente con Dni "+dni+":\n"
+						+ "Para valor IMC:(-1) Infrapeso | (0) "
+						+ "Normopeso | (1) Sobrepeso\n");
 				TratamientoFichero.esHistorico(dni);
+
 			} 
 			
 			else {

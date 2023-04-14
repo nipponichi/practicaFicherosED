@@ -1,0 +1,5 @@
+
+DNI: 62738574W, Fecha: 12 abr 2023, Hora:17:32:53, Peso: 90.0Kgs, Altura: 1.71m, IMC: 1
+DNI: 73961533L, Fecha: 12 abr 2023, Hora:17:35:38, Peso: 91.0Kgs, Altura: 1.71m, IMC: 1
+DNI: 73961533L, Fecha: 12 abr 2023, Hora:17:36:33, Peso: 89.0Kgs, Altura: 1.71m, IMC: 1
+DNI: 73961533L, Fecha: 12 abr 2023, Hora:17:37:35, Peso: 70.0Kgs, Altura: 1.71m, IMC: 0
