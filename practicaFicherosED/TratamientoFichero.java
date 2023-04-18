@@ -9,6 +9,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TratamientoFichero {
+	
+	static String rutaPaciente = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src"
+			+ "\\almacenamiento\\Pacientes.txt";
+	static String rutaVisita = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src"
+			+ "\\almacenamiento\\Visitas.txt";
 
 	/**
 	 * Método de escritura de archivos: Pacientes.txt y Visitas.txt.
@@ -17,11 +22,6 @@ public class TratamientoFichero {
 		String ruta = null;
 		FileWriter fichero = null;
 		PrintWriter pw = null;
-		
-		String rutaPaciente = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src"
-				+ "\\almacenamiento\\Pacientes.txt";
-		String rutaVisita = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src"
-				+ "\\almacenamiento\\Visitas.txt";
 		
 		//Comprobamos si registraremos paciente o visita
 		if (esVisita != true) {
@@ -125,7 +125,7 @@ public class TratamientoFichero {
 	 * @return true o false si el DNI se encuentra en el archivo Pacientes.txt
 	 */
 	public static boolean esDniRegistrado (String dni) {
-		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Pacientes.txt";
+		String ruta = rutaPaciente;
 		File f = new File(ruta);
 		Scanner s;
 			/**
@@ -162,7 +162,7 @@ public class TratamientoFichero {
 	 */
 	@SuppressWarnings("resource")
 	public static void esHistorico (String dni) {
-		String ruta = "C:\\Users\\Javier\\eclipse-workspace\\practicaFicherosED\\src\\almacenamiento\\Visitas.txt";
+		String ruta = rutaVisita;
 		File f = new File(ruta);
 		Scanner s;
 			/**
